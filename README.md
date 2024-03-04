@@ -29,6 +29,14 @@ The project utilizes Node.js for the backend, with Express.js serving as the web
 4. Start the application with `npm start`.
 5. Access the web application at `http://localhost:3000`.
 
+## Build
+
+1. Create a docker image using:
+
+```
+$ ALPINE_VERSION=3.19 docker buildx build --platform=linux/amd64,linux/arm64 --file=deployment/Dockerfile --build-arg="ALPINE_VERSION=${ALPINE_VERSION}" --output type=image --tag inmindcz/cashflow:1.0.0-alpine-${ALPINE_VERSION} --push .
+```
+
 ### License
 
 Copyright (c) 2024.

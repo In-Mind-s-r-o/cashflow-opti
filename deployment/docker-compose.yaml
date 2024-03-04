@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  database:
+    image: mongo:4.4
+    container_name: cashflow-opti_mongodb
+    networks:
+      - cashflow-opti_net
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=cashflow
+      - MONGO_INITDB_ROOT_PASSWORD=cashflow
+      - MONGO_INITDB_DATABASE=cashflow
+    ports:
+      - 9901:27017
+    volumes:
+      - ../mongodb/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - ../mongodb/data:/data/db
+
+  web:
+    image: inmindcz/cashflow:1.0.0-alpine-3.19
+    container_name: cashflow-opti_frontend
+    networks:
+      - cashflow-opti_net
+    ports:
+      - 9900:3000
+    environment:
+      - MONGO_URI=mongodb://cashflow:cashflow@database:27017/cashflow
+    depends_on:
+      - database
+
+networks:
+  cashflow-opti_net:
+    name: cashflow-opti_net
