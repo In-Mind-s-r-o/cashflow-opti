@@ -1,30 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include('partials/_head.ejs') %>
-  <body>
+<body>
 <%- include('partials/_header.ejs') %>
-    <main role="main" class="container mt-4">
-      <h2>Manage Dealers</h2>
-      <form action="/dealers/manage" method="post">
-        <div class="mb-3">
-          <label for="name" class="form-label">Dealer Name</label>
-          <input type="text" class="form-control" id="name" name="name" required>
-        </div>
-        <div class="mb-3">
-          <label for="country" class="form-label">Country</label>
-          <input type="text" class="form-control" id="country" name="country" required>
-        </div>
-        <div class="mb-3">
-          <label for="averageInvoiceMaturityDays" class="form-label">Average Invoice Maturity Days</label>
-          <input type="number" class="form-control" id="averageInvoiceMaturityDays" name="averageInvoiceMaturityDays" required>
-        </div>
-        <div class="mb-3">
-          <label for="averageDeliveryTime" class="form-label">Average Delivery Time (days)</label>
-          <input type="number" class="form-control" id="averageDeliveryTime" name="averageDeliveryTime" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
-    </main>
-  </body>
+<main role="main" class="container mt-4">
+    <h2>Dealers</h2>
+    <a href="/dealers/new" class="btn btn-primary mb-3">Add new Dealer</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Country</th>
+                <th>Average Invoice Maturity Days</th>
+                <th>Average Delivery Time</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% dealers.forEach(function(dealer) { %>
+                <tr>
+                    <td><%= dealer.name %></td>
+                    <td><%= dealer.country %></td>
+                    <td><%= dealer.averageInvoiceMaturityDays %></td>
+                    <td><%= dealer.averageDeliveryTime %></td>
+                    <td>
+                        <a href="/dealers/<%= dealer._id %>" class="btn btn-primary">Edit</a>
+                        <button class="btn btn-danger delete-btn" data-id="<%= dealer._id %>" data-entity="dealers">Delete</button>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</main>
+<script src="/js/main.js"></script>
 <%- include('partials/_footer.ejs') %>
+</body>
 </html>

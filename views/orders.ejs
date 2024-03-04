@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/_head.ejs') %>
+<body>
+<%- include('partials/_header.ejs') %>
+<main role="main" class="container mt-4">
+    <h2>Orders</h2>
+    <a href="/orders/new" class="btn btn-primary mb-3">Add new Order</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Dealer</th>
+                <th>Country</th>
+                <th>Vehicle Type</th>
+                <th>Number of Vehicles Ordered</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% orders.forEach(function(order) { %>
+                <tr>
+                    <td><%= order.dealer.name %></td>
+                    <td><%= order.country %></td>
+                    <td><%= order.vehicleType.type %></td>
+                    <td><%= order.numberOfVehiclesOrdered %></td>
+                    <td>
+                        <a href="/orders/<%= order._id %>" class="btn btn-primary">Edit</a>
+                        <button class="btn btn-danger delete-btn" data-id="<%= order._id %>" data-entity="orders">Delete</button>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</main>
+<script src="/js/main.js"></script>
+<%- include('partials/_footer.ejs') %>
+</body>
+</html>

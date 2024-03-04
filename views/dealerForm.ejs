@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/_head.ejs') %>
+<body>
+<%- include('partials/_header.ejs') %>
+<main class="container mt-4">
+    <h2><%= dealer ? "Edit Dealer" : "Add Dealer" %></h2>
+    <form action="/dealers<%= dealer ? '/' + dealer._id : '' %>" method="post">
+        <input type="hidden" name="_method" value="<%= dealer ? 'PATCH' : 'POST' %>">
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" name="name" value="<%= dealer ? dealer.name : '' %>" required>
+        </div>
+        <div class="mb-3">
+            <label for="country" class="form-label">Country</label>
+            <select class="form-select" id="country" name="country" required>
+                <% Object.keys(countries).forEach(function(countryCode) { %>
+                    <option value="<%= countryCode %>" <%= dealer && dealer.country === countryCode ? 'selected' : '' %>><%= countries[countryCode].name %></option>
+                <% }); %>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="averageInvoiceMaturityDays" class="form-label">Average Invoice Maturity Days</label>
+            <input type="number" class="form-control" id="averageInvoiceMaturityDays" name="averageInvoiceMaturityDays" value="<%= dealer ? dealer.averageInvoiceMaturityDays : '' %>" required>
+        </div>
+        <div class="mb-3">
+            <label for="averageDeliveryTime" class="form-label">Average Delivery Time</label>
+            <input type="number" class="form-control" id="averageDeliveryTime" name="averageDeliveryTime" value="<%= dealer ? dealer.averageDeliveryTime : '' %>" required>
+        </div>
+        <button type="submit" class="btn btn-primary"><%= dealer ? "Update" : "Add" %></button>
+    </form>
+</main>
+<%- include('partials/_footer.ejs') %>
+</body>
+</html>

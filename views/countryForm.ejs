@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/_head.ejs') %>
+<body>
+<%- include('partials/_header.ejs') %>
+<main class="container mt-4">
+    <h2><%= country ? "Edit Country" : "Add Country" %></h2>
+    <form action="/countries<%= country ? '/' + country._id : '' %>" method="POST">
+        <% if (country) { %>
+            <input type="hidden" name="_method" value="<%= country ? 'PATCH' : 'POST' %>">
+        <% } %>
+
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <select class="form-select" id="name" name="name" required>
+                <% Object.keys(countries).forEach(function(countryCode) { %>
+                    <option value="<%= countries[countryCode].name %>" <%= country && country.name === countries[countryCode].name ? 'selected' : '' %>><%= countries[countryCode].name %></option>
+                <% }); %>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="vehicleTypesOrdered" class="form-label">Annual Number of Vehicle Types Ordered</label>
+            <input type="number" class="form-control" id="vehicleTypesOrdered" name="vehicleTypesOrdered" value="<%= country ? country.vehicleTypesOrdered : '' %>">
+        </div>
+        <div class="mb-3">
+            <label for="totalPrice" class="form-label">Total Price</label>
+            <input type="number" class="form-control" id="totalPrice" name="totalPrice" value="<%= country ? country.totalPrice : '' %>">
+        </div>
+        <button type="submit" class="btn btn-primary"><%= country ? "Update" : "Add" %></button>
+    </form>
+</main>
+<%- include('partials/_footer.ejs') %>
+</body>
+</html>

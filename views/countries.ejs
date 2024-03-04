@@ -1,26 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include('partials/_head.ejs') %>
-  <body>
+<body>
 <%- include('partials/_header.ejs') %>
-    <main role="main" class="container mt-4">
-      <h2>Manage Countries</h2>
-      <form action="/countries" method="post">
-        <div class="mb-3">
-          <label for="countryName" class="form-label">Country Name</label>
-          <input type="text" class="form-control" id="countryName" name="countryName" required>
-        </div>
-        <div class="mb-3">
-          <label for="vehicleTypesOrdered" class="form-label">Annual Number of Vehicle Types Ordered</label>
-          <input type="number" class="form-control" id="vehicleTypesOrdered" name="vehicleTypesOrdered" required>
-        </div>
-        <div class="mb-3">
-          <label for="totalPrice" class="form-label">Total Price</label>
-          <input type="number" class="form-control" id="totalPrice" name="totalPrice" step="0.01" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
-    </main>
-  </body>
+<main role="main" class="container mt-4">
+    <h2>Countries</h2>
+    <a href="/countries/new" class="btn btn-primary mb-3">Add new Country</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Annual Number of Vehicles Ordered</th>
+                <th>Total Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% countries.forEach(function(country) { %>
+                <tr>
+                    <td><%= country.name %></td>
+                    <td><%= country.vehicleTypesOrdered %></td>
+                    <td><%= country.totalPrice %></td>
+                    <td>
+                        <a href="/countries/<%= country._id %>" class="btn btn-primary">Edit</a>
+                        <button class="btn btn-danger delete-btn" data-id="<%= country._id %>" data-entity="countries">Delete</button>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</main>
+<script src="/js/main.js"></script>
 <%- include('partials/_footer.ejs') %>
+</body>
 </html>

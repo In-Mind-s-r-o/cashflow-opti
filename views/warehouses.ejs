@@ -1,34 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include('partials/_head.ejs') %>
-  <body>
-<%- include('partials/_header.ejs') %>
-    <main role="main" class="container mt-4">
-      <h2>Manage Warehouses</h2>
-      <form action="/warehouses/manage" method="post">
-        <div class="mb-3">
-          <label for="warehouseName" class="form-label">Warehouse Name</label>
-          <input type="text" class="form-control" id="warehouseName" name="warehouseName" required>
-        </div>
-        <div class="mb-3">
-          <label for="assignedDealer" class="form-label">Assigned Dealer</label>
-          <select class="form-select" id="assignedDealer" name="assignedDealer" required>
-            <% dealers.forEach(function(dealer) { %>
-              <option value="<%= dealer._id %>"><%= dealer.name %></option>
-            <% }); %>
-          </select>
-        </div>
-        <div class="mb-3">
-          <label for="averageWaitingTime" class="form-label">Average Waiting Time (days)</label>
-          <input type="number" class="form-control" id="averageWaitingTime" name="averageWaitingTime" required>
-        </div>
-        <div class="mb-3">
-          <label for="maximumVehicleCapacity" class="form-label">Maximum Vehicle Capacity</label>
-          <input type="number" class="form-control" id="maximumVehicleCapacity" name="maximumVehicleCapacity" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
-    </main>
-  </body>
-<%- include('partials/_footer.ejs') %>
+<body>
+  <%- include('partials/_header.ejs') %>
+  <main role="main" class="container mt-4">
+      <h2>Warehouses</h2>
+      <a href="/warehouses/new" class="btn btn-primary mb-3">Add new Warehouse</a>
+      <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Assigned Dealer</th>
+                <th>Average Waiting Time</th>
+                <th>Maximum Vehicle Capacity</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% warehouses.forEach(function(warehouse) { %>
+                <tr>
+                    <td><%= warehouse.name %></td>
+                    <td><%= warehouse.assignedDealer.name %></td>
+                    <td><%= warehouse.averageWaitingTimeDays %></td>
+                    <td><%= warehouse.maximumVehicleCapacity %></td>
+                      <td>
+                          <a href="/warehouses/<%= warehouse._id %>" class="btn btn-primary">Edit</a>
+                          <button class="btn btn-danger delete-btn" data-id="<%= warehouse._id %>" data-entity="warehouses">Delete</button>
+                      </td>
+                  </tr>
+              <% }); %>
+          </tbody>
+      </table>
+  </main>
+  <%- include('partials/_footer.ejs') %>
+  <script src="/js/main.js"></script>
+</body>
 </html>

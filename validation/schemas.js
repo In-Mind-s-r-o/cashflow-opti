@@ -26,7 +26,14 @@ const orderSchema = Joi.object({
   numberOfVehiclesOrdered: Joi.number().positive().integer().required()
 });
 
+const countrySchema = Joi.object({
+  name: Joi.string().required(),
+  vehicleTypesOrdered: Joi.number().positive().integer(),
+  totalPrice: Joi.number().min(0)
+});
+
 module.exports = {
+  countrySchema,
   vehicleTypeSchema,
   dealerSchema,
   warehouseSchema,

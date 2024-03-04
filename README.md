@@ -1,17 +1,17 @@
 # Cashflow-Opti
 
-Cashflow-Opti is a comprehensive application designed to optimize vehicle production planning across multiple countries, taking into account various factors such as vehicle types, dealer locations, and warehouse capabilities. Utilizing advanced optimization algorithms, it aims to streamline the production and distribution process to meet demand efficiently.
+Cashflow-Opti is a web-based application designed to optimize vehicle production plans across different countries, dealers, and warehouses. It leverages various technologies to efficiently calculate and suggest optimal production allocation, considering multiple factors such as dealer preferences, warehouse capacities, and delivery times.
 
 ## Overview
 
-The application is built on a Node.js backend with Express for handling server requests, MongoDB for data storage, and EJS for templating. It follows a modular architecture, segregating functionalities into routes, models, views, and services for clarity and maintainability. The optimization logic employs linear programming or heuristic methods to allocate production in a way that considers dealer preferences, warehouse capacities, and delivery schedules.
+The project utilizes Node.js for the backend, with Express.js serving as the web framework. Data persistence is achieved through MongoDB, and Mongoose is used as the ODM. The front-end leverages EJS for templating. The application is structured around MVC principles, with models for users, vehicle types, dealers, warehouses, and orders.
 
 ## Features
 
-- **Dynamic Production Planning**: Calculates optimal monthly production plans for vehicles across different countries.
-- **Dealer and Warehouse Optimization**: Prioritizes dealer and warehouse preferences in the production plan.
-- **User Authentication**: Securely manage access to the system with user authentication.
-- **Customizable Inputs**: Users can input data regarding vehicle types, dealer information, and warehouse details to tailor the optimization process.
+- Dynamic production plan optimization using linear programming or heuristic methods.
+- Monthly breakdown of orders to meet production and delivery schedules.
+- Customizable dealer and warehouse preferences to influence the optimization process.
+- User authentication for secure access to the system.
 
 ## Getting started
 
@@ -23,11 +23,11 @@ The application is built on a Node.js backend with Express for handling server r
 
 ### Quickstart
 
-1. Clone the repository.
-2. Run `npm install` to install dependencies.
-3. Set up the `.env` file as per the `.env.example`.
-4. Start the server with `npm start`.
-5. Access the application via `http://localhost:3000`.
+1. Clone the repository to your local machine.
+2. Install dependencies with `npm install`.
+3. Configure your environment variables based on the `.env.example` file.
+4. Start the application with `npm start`.
+5. Access the web application at `http://localhost:3000`.
 
 ### License
 

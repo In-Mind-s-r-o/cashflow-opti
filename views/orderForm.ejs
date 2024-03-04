@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/_head.ejs') %>
+<body>
+<%- include('partials/_header.ejs') %>
+<main class="container mt-4">
+    <h2><%= order ? "Edit Order" : "Add Order" %></h2>
+    <form action="/orders<%= order ? '/' + order._id : '' %>" method="post">
+        <input type="hidden" name="_method" value="<%= order ? 'PATCH' : 'POST' %>">
+        <div class="mb-3">
+            <label for="dealer" class="form-label">Dealer</label>
+            <select class="form-select" id="dealer" name="dealer" required>
+                <% dealers.forEach(function(dealer) { %>
+                    <option value="<%= dealer._id %>" <%= order && order.dealer._id === dealer._id ? 'selected' : '' %>><%= dealer.name %></option>
+                <% }); %>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="dealer" class="form-label">Country</label>
+            <select class="form-select" id="country" name="country" required>
+                <% Object.keys(countries).forEach(function(countryCode) { %>
+                    <option value="<%= countryCode %>" <%= order && order.country === countryCode ? 'selected' : '' %>><%= countries[countryCode].name %></option>
+                <% }); %>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="vehicleType" class="form-label">Vehicle Type</label>
+            <select class="form-select" id="vehicleType" name="vehicleType" required>
+                <% vehicleTypes.forEach(function(vehicleType) { %>
+                    <option value="<%= vehicleType._id %>" <%= order && order.vehicleType._id === vehicleType._id ? 'selected' : '' %>><%= vehicleType.type %></option>
+                <% }); %>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="numberOfVehiclesOrdered" class="form-label">Number of Vehicles Ordered</label>
+            <input type="number" class="form-control" id="numberOfVehiclesOrdered" name="numberOfVehiclesOrdered" value="<%= order ? order.numberOfVehiclesOrdered : '' %>" required>
+        </div>
+        <button type="submit" class="btn btn-primary"><%= order ? "Update" : "Add" %></button>
+    </form>
+</main>
+<%- include('partials/_footer.ejs') %>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/_head.ejs') %>
+<body>
+<%- include('partials/_header.ejs') %>
+<main class="container mt-4">
+    <h2><%= warehouse ? "Edit Warehouse" : "Add Warehouse" %></h2>
+    <form action="/warehouses<%= warehouse ? '/' + warehouse._id : '' %>" method="post">
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" name="name" value="<%= warehouse ? warehouse.name : '' %>" required>
+        </div>
+        <div class="mb-3">
+            <label for="assignedDealer" class="form-label">Assigned Dealer</label>
+            <select class="form-select" id="assignedDealer" name="assignedDealer" required>
+                <% dealers.forEach(function(dealer) { %>
+                    <option value="<%= dealer._id %>" <%= warehouse && warehouse.assignedDealer === dealer._id ? 'selected' : '' %>><%= dealer.name %></option>
+                <% }); %>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="averageWaitingTimeDays" class="form-label">Average Waiting Time Days</label>
+            <input type="number" class="form-control" id="averageWaitingTimeDays" name="averageWaitingTimeDays" value="<%= warehouse ? warehouse.averageWaitingTimeDays : '' %>" required>
+        </div>
+        <div class="mb-3">
+            <label for="maximumVehicleCapacity" class="form-label">Maximum Vehicle Capacity</label>
+            <input type="number" class="form-control" id="maximumVehicleCapacity" name="maximumVehicleCapacity" value="<%= warehouse ? warehouse.maximumVehicleCapacity : '' %>" required>
+        </div>
+        <input type="hidden" name="_method" value="<%= warehouse ? 'PATCH' : 'POST' %>">
+        <button type="submit" class="btn btn-primary"><%= warehouse ? "Update" : "Add" %></button>
+    </form>
+</main>
+<%- include('partials/_footer.ejs') %>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/_head.ejs') %>
+<body>
+<%- include('partials/_header.ejs') %>
+<main class="container mt-4">
+    <h2><%= vehicleType ? "Edit Vehicle Type" : "Add Vehicle Type" %></h2>
+    <form action="/vehicle-types<%= vehicleType ? '/' + vehicleType._id : '' %>" method="POST" enctype="application/x-www-form-urlencoded">
+        <input type="hidden" name="_method" value="<%= vehicleType ? 'PATCH' : 'POST' %>">
+        <div class="mb-3">
+            <label for="type" class="form-label">Type</label>
+            <input type="text" class="form-control" id="type" name="type" value="<%= vehicleType ? vehicleType.type : '' %>" required>
+        </div>
+        <div class="mb-3">
+            <label for="price" class="form-label">Price</label>
+            <input type="number" class="form-control" id="price" name="price" value="<%= vehicleType ? vehicleType.price : '' %>" required>
+        </div>
+        <button type="submit" class="btn btn-primary"><%= vehicleType ? "Update" : "Add" %></button>
+    </form>
+</main>
+<%- include('partials/_footer.ejs') %>
+</body>
+</html>

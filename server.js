@@ -1,18 +1,29 @@
 // Load environment variables
 require("dotenv").config();
 const mongoose = require("mongoose");
+const errorhandler = require('errorhandler')
 const express = require("express");
 const session = require("express-session");
 const MongoStore = require('connect-mongo');
+const morgan = require('morgan')
+const methodOverride = require('method-override'); // Added method-override
 const authRoutes = require("./routes/authRoutes");
-const vehicleTypeRoutes = require('./routes/vehicleTypeRoutes');
-const dealerRoutes = require('./routes/dealerRoutes');
-const warehouseRoutes = require('./routes/warehouseRoutes'); // Import warehouse routes
-const orderRoutes = require('./routes/orderRoutes'); // Import order routes
-const countryRoutes = require('./routes/countryRoutes'); // Import country routes
 const optimizationRoutes = require('./routes/optimizationRoutes'); // Import optimization routes
 const dashboardRoutes = require('./routes/dashboardRoutes'); // Import dashboard routes
 const productionPlanRoutes = require('./routes/productionPlanRoutes'); // Import production plan routes
+const viewRoutes = require('./routes/viewRoutes'); // Reintroduced viewRoutes for general view routing
+
+const countryApiRoutes = require('./routes/api/countryApiRoutes'); // Ensure API routes for contries are include
+const dealerApiRoutes = require('./routes/api/dealerApiRoutes'); // Ensure API routes for dealers are include
+const orderApiRoutes = require('./routes/api/orderApiRoutes'); // Ensure API routes for orders are include
+const vehicleTypeApiRoutes = require('./routes/api/vehicleTypeApiRoutes'); // Ensure API routes for vehicle types are included
+const warehouseApiRoutes = require('./routes/api/warehouseApiRoutes'); // Ensure API routes for warehouses are included
+
+const countryViewRoutes = require('./routes/view/countryViewRoutes'); // Correctly separated view routes for countries
+const dealerViewRoutes = require('./routes/view/dealerViewRoutes'); // Correctly separated view routes for dealers
+const orderViewRoutes = require('./routes/view/orderViewRoutes'); // Correctly separated view routes for orders
+const vehicleTypeViewRoutes = require('./routes/view/vehicleTypeViewRoutes'); // Correctly separated view routes for vehicle types
+const warehouseViewRoutes = require('./routes/view/warehouseViewRoutes'); // Correctly separated view routes for warehouses
 
 if (!process.env.DATABASE_URL || !process.env.SESSION_SECRET) {
   console.error("Error: config environment variables not set. Please create/edit .env configuration file.");
@@ -22,9 +33,23 @@ if (!process.env.DATABASE_URL || !process.env.SESSION_SECRET) {
 const app = express();
 const port = process.env.PORT || 3000;
 
+app.use(morgan('dev'));
+app.use(errorhandler())
+
 // Middleware to parse request bodies
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+// Use method-override middleware
+app.use(methodOverride('_method'));
+app.use(methodOverride(function (req, res) {
+  if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+    // look in urlencoded POST bodies and delete it
+    var method = req.body._method
+    delete req.body._method
+    return method
+  }
+}))
 
 // Setting the templating engine to EJS
 app.set("view engine", "ejs");
@@ -79,20 +104,12 @@ app.use((req, res, next) => {
 // Authentication Routes
 app.use(authRoutes);
 
-// Vehicle Type Routes
-app.use(vehicleTypeRoutes);
-
-// Dealer Routes
-app.use(dealerRoutes);
-
-// Warehouse Routes - Registering warehouse routes
-app.use(warehouseRoutes);
-
-// Order Routes - Registering order routes
-app.use(orderRoutes);
-
-// Country Routes - Registering country routes
-app.use(countryRoutes);
+// API Routes
+app.use('/api/countries', countryApiRoutes);
+app.use('/api/dealers', dealerApiRoutes);
+app.use('/api/orders', orderApiRoutes);
+app.use('/api/vehicle-types', vehicleTypeApiRoutes);
+app.use('/api/warehouses', warehouseApiRoutes);
 
 // Optimization Routes - Registering optimization routes
 app.use(optimizationRoutes);
@@ -102,6 +119,14 @@ app.use(dashboardRoutes);
 
 // Production Plan Routes - Registering production plan routes
 app.use(productionPlanRoutes);
+
+// View Routes for Overview Pages
+app.use(countryViewRoutes); // Using separated view routes for dealers
+app.use(dealerViewRoutes); // Using separated view routes for dealers
+app.use(orderViewRoutes); // Using separated view routes for orders
+app.use(vehicleTypeViewRoutes); // Using separated view routes for vehicle types
+app.use(warehouseViewRoutes); // Using separated view routes for warehouse
+app.use(viewRoutes); // Ensuring general view routes are still functional
 
 // Root path response
 app.get("/", (req, res) => {

@@ -1,11 +1,13 @@
 const express = require('express');
-const Order = require('../models/Order');
-const { orderSchema } = require('../validation/schemas');
-const validateRequest = require('../middleware/validateRequest');
+const Order = require('../../models/Order'); // Adjusted path according to new file location
+const Dealer = require('../../models/Dealer'); // Adjusted path according to new file location
+const VehicleType = require('../../models/VehicleType'); // Adjusted path according to new file location
+const { orderSchema } = require('../../validation/schemas');
+const validateRequest = require('../../middleware/validateRequest');
 const router = express.Router();
 
 // Add a new order
-router.post('/orders', validateRequest(orderSchema), async (req, res) => {
+router.post('/', validateRequest(orderSchema), async (req, res) => {
   try {
     const order = new Order(req.body);
     await order.save();
@@ -18,11 +20,11 @@ router.post('/orders', validateRequest(orderSchema), async (req, res) => {
 });
 
 // Get all orders
-router.get('/orders', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const orders = await Order.find({}).populate('dealer vehicleType');
     console.log(`Fetched ${orders.length} orders`);
-    res.status(200).send(orders);
+    res.json({ orders });
   } catch (error) {
     console.error(`Error fetching orders: ${error.message}`, error.stack);
     res.status(500).send(error.message);
@@ -30,7 +32,7 @@ router.get('/orders', async (req, res) => {
 });
 
 // Update an order
-router.patch('/orders/:id', validateRequest(orderSchema), async (req, res) => {
+router.patch('/:id', validateRequest(orderSchema), async (req, res) => {
   try {
     const order = await Order.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!order) {
@@ -46,7 +48,7 @@ router.patch('/orders/:id', validateRequest(orderSchema), async (req, res) => {
 });
 
 // Delete an order
-router.delete('/orders/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
   try {
     const order = await Order.findByIdAndDelete(req.params.id);
     if (!order) {
@@ -54,7 +56,7 @@ router.delete('/orders/:id', async (req, res) => {
       return res.status(404).send('Order not found');
     }
     console.log(`Order deleted: ${order}`);
-    res.send(order);
+    res.status(204).send(); // No Content
   } catch (error) {
     console.error(`Error deleting order: ${error.message}`, error.stack);
     res.status(500).send(error.message);
