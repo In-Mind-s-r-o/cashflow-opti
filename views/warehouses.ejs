@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/_head.ejs') %>
+  <body>
+<%- include('partials/_header.ejs') %>
+    <main role="main" class="container mt-4">
+      <h2>Manage Warehouses</h2>
+      <form action="/warehouses/manage" method="post">
+        <div class="mb-3">
+          <label for="warehouseName" class="form-label">Warehouse Name</label>
+          <input type="text" class="form-control" id="warehouseName" name="warehouseName" required>
+        </div>
+        <div class="mb-3">
+          <label for="assignedDealer" class="form-label">Assigned Dealer</label>
+          <select class="form-select" id="assignedDealer" name="assignedDealer" required>
+            <% dealers.forEach(function(dealer) { %>
+              <option value="<%= dealer._id %>"><%= dealer.name %></option>
+            <% }); %>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="averageWaitingTime" class="form-label">Average Waiting Time (days)</label>
+          <input type="number" class="form-control" id="averageWaitingTime" name="averageWaitingTime" required>
+        </div>
+        <div class="mb-3">
+          <label for="maximumVehicleCapacity" class="form-label">Maximum Vehicle Capacity</label>
+          <input type="number" class="form-control" id="maximumVehicleCapacity" name="maximumVehicleCapacity" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </main>
+  </body>
+<%- include('partials/_footer.ejs') %>
+</html>

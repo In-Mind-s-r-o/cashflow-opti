@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/_head.ejs') %>
+  <body>
+<%- include('partials/_header.ejs') %>
+    <main role="main" class="container mt-4">
+      <h2>Manage Countries</h2>
+      <form action="/countries" method="post">
+        <div class="mb-3">
+          <label for="countryName" class="form-label">Country Name</label>
+          <input type="text" class="form-control" id="countryName" name="countryName" required>
+        </div>
+        <div class="mb-3">
+          <label for="vehicleTypesOrdered" class="form-label">Annual Number of Vehicle Types Ordered</label>
+          <input type="number" class="form-control" id="vehicleTypesOrdered" name="vehicleTypesOrdered" required>
+        </div>
+        <div class="mb-3">
+          <label for="totalPrice" class="form-label">Total Price</label>
+          <input type="number" class="form-control" id="totalPrice" name="totalPrice" step="0.01" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </main>
+  </body>
+<%- include('partials/_footer.ejs') %>
+</html>
